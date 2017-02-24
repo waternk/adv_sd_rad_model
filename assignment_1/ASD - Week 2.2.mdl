@@ -1,0 +1,170 @@
+{UTF-8}
+unexposed citizens on internet[education]= INTEG (
+	-exposure[education],
+		total population[education]*"% with access to internet"[education])
+	~	person
+	~		|
+
+deradicalization[education]=
+	radicalized citizens[education]*deradicalization rate[education]
+	~	person/Week
+	~		|
+
+persuasion[education]=
+	exposed citizens on internet[education]*persuasion rate[education]*influence of radicalized\
+		[education]
+	~	person/Week
+	~		|
+
+education:
+	lowedu, mediumedu, highedu
+	~	
+	~		|
+
+exposed citizens on internet[education]= INTEG (
+	deradicalization[education]+exposure[education]-persuasion[education],
+		0)
+	~	person
+	~		|
+
+exposure[education]=
+	exposure rate[education]*unexposed citizens on internet[education]*influence of radicalized\
+		[education]
+	~	person/Week
+	~		|
+
+influence of radicalized[education]=
+	0.001*radicalized citizens[education]
+	~	
+	~		|
+
+radicalized citizens[education]= INTEG (
+	persuasion[education]-deradicalization[education],
+		5)
+	~	person
+	~		|
+
+"% with access to internet"[education]=
+	0.45,0.5,0.55
+	~	
+	~	low,medium, high
+	|
+
+deradicalization rate[education]=
+	0.02,0.015,0.01
+	~	Dmnl
+	~	low, medium, high
+	|
+
+exposure rate[education]=
+	0.1,0.1,0.1
+	~	Dmnl
+	~	low medium high
+	|
+
+persuasion rate[education]=
+	0.3,0.2,0.05
+	~	Dmnl
+	~	low, medium, high
+	|
+
+total population[education]=
+	368000,678400,537600
+	~	person
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 500
+	~	Week
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Week
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Week [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.0625
+	~	Week [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,unexposed citizens on internet,411,336,53,27,3,3,0,0,0,0,0,0
+10,2,exposed citizens on internet,707,334,53,27,3,3,0,0,0,0,0,0
+10,3,radicalized citizens,988,334,53,27,3,3,0,0,0,0,0,0
+1,4,6,2,4,0,0,22,0,0,0,-1--1--1,,1|(610,334)|
+1,5,6,1,100,0,0,22,0,0,0,-1--1--1,,1|(507,334)|
+11,6,252,559,334,8,11,34,3,0,0,1,0,0,0
+10,7,exposure,559,356,32,11,40,3,0,0,-1,0,0,0
+1,8,10,3,4,0,0,22,0,0,0,-1--1--1,,1|(895,334)|
+1,9,10,2,100,0,0,22,0,0,0,-1--1--1,,1|(799,334)|
+11,10,172,847,334,8,11,34,3,0,0,1,0,0,0
+10,11,persuasion,847,356,37,11,40,3,0,0,-1,0,0,0
+10,12,total population,255,390,53,11,8,3,0,0,0,0,0,0
+1,13,12,1,0,0,0,0,0,128,1,-1--1--1,,1|(315,368)|
+1,14,15,3,100,0,0,22,0,0,0,-1--1--1,,1|(996,403)|
+11,15,188,996,454,11,8,33,3,0,0,4,0,0,0
+10,16,deradicalization,1061,454,55,11,40,3,0,0,-1,0,0,0
+10,17,exposure rate,493,250,45,11,8,3,0,0,0,0,0,0
+1,18,17,7,1,0,0,0,0,128,0,-1--1--1,,1|(508,322)|
+10,19,persuasion rate,748,252,51,11,8,3,0,0,0,0,0,0
+1,20,19,11,1,0,0,0,0,128,0,-1--1--1,,1|(785,305)|
+1,21,1,7,1,0,0,0,0,128,0,-1--1--1,,1|(516,390)|
+1,22,2,11,1,0,0,0,0,128,0,-1--1--1,,1|(733,396)|
+1,23,3,16,1,0,0,0,0,128,0,-1--1--1,,1|(1099,342)|
+10,24,deradicalization rate,1124,517,68,11,8,3,0,0,0,0,0,0
+1,25,24,16,0,0,0,0,0,128,0,-1--1--1,,1|(1097,490)|
+1,26,3,30,1,0,0,0,0,128,0,-1--1--1,,1|(893,200)|
+1,27,15,2,4,0,0,22,0,0,0,-1--1--1,,3|(709,454)|(709,454)|(709,407)|
+10,28,"% with access to internet",247,290,57,19,8,3,0,0,0,0,0,0
+1,29,28,1,1,0,0,0,0,128,1,-1--1--1,,1|(327,306)|
+10,30,influence of radicalized,544,186,79,11,8,3,0,0,0,0,0,0
+1,31,30,6,1,0,0,0,0,128,0,-1--1--1,,1|(559,246)|
+1,32,30,10,1,0,0,0,0,128,0,-1--1--1,,1|(819,233)|
+///---\\\
+:L<%^E!@
+1:Current.vdf
+9:Current
+22:$,Dollar,Dollars,$s
+22:Hour,Hours
+22:Month,Months
+22:Person,People,Persons
+22:Unit,Units
+22:Week,Weeks
+22:Year,Years
+22:Day,Days
+15:0,0,0,1,0,0
+19:100,0
+27:2,
+34:0,
+4:Time
+5:total population[education]
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:3
+41:0
+42:1
+24:0
+25:500
+26:500
+6:highedu
+6:lowedu
+6:mediumedu
