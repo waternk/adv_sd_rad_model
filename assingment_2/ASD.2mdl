@@ -1,0 +1,156 @@
+{UTF-8}
+with access to internet=
+	0.26
+	~	
+	~		|
+
+deradicalization=
+	radicalized citizens*deradicalization rate
+	~	person/Week
+	~		|
+
+deradicalization rate=
+	0.02
+	~	Dmnl
+	~		|
+
+exposed citizens on internet= INTEG (
+	deradicalization+exposure-persuasion,
+		0)
+	~	person
+	~		|
+
+exposure=
+	exposure rate*unexposed citizens on internet*influence of radicalized
+	~	person/Week
+	~		|
+
+exposure rate=
+	0.1
+	~	Dmnl
+	~		|
+
+influence of radicalized=
+	0.001*radicalized citizens
+	~	
+	~		|
+
+persuasion=
+	exposed citizens on internet*persuasion rate*influence of radicalized
+	~	person/Week
+	~		|
+
+persuasion rate=
+	0.05
+	~	Dmnl
+	~		|
+
+radicalized citizens= INTEG (
+	persuasion-deradicalization,
+		5)
+	~	person
+	~		|
+
+total population=
+	1.31105e+09
+	~	person
+	~		|
+
+unexposed citizens on internet= INTEG (
+	-exposure,
+		total population*with access to internet)
+	~	person
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 500
+	~	Week
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Week
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Week [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.0625
+	~	Week [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,100,0
+10,1,unexposed citizens on internet,308,239,40,20,3,3,0,0,0,0,0,0
+10,2,exposed citizens on internet,530,238,40,20,3,3,0,0,0,0,0,0
+10,3,radicalized citizens,741,238,40,20,3,3,0,0,0,0,0,0
+1,4,6,2,4,0,0,22,0,0,0,-1--1--1,,1|(457,238)|
+1,5,6,1,100,0,0,22,0,0,0,-1--1--1,,1|(380,238)|
+11,6,172,419,238,6,8,34,3,0,0,1,0,0,0
+10,7,exposure,419,254,24,8,40,3,0,0,-1,0,0,0
+1,8,10,3,4,0,0,22,0,0,0,-1--1--1,,1|(671,238)|
+1,9,10,2,100,0,0,22,0,0,0,-1--1--1,,1|(599,238)|
+11,10,268,635,238,6,8,34,3,0,0,1,0,0,0
+10,11,persuasion,635,254,28,8,40,3,0,0,-1,0,0,0
+10,12,total population,191,280,40,8,8,3,0,0,0,0,0,0
+1,13,12,1,0,0,0,0,0,128,1,-1--1--1,,1|(233,264)|
+1,14,15,3,100,0,0,22,0,0,0,-1--1--1,,1|(747,290)|
+11,15,364,747,328,8,6,33,3,0,0,4,0,0,0
+10,16,deradicalization,796,328,41,8,40,3,0,0,-1,0,0,0
+10,17,exposure rate,370,175,34,8,8,3,0,0,0,0,0,0
+1,18,17,7,1,0,0,0,0,128,0,-1--1--1,,1|(381,229)|
+10,19,persuasion rate,561,176,38,8,8,3,0,0,0,0,0,0
+1,20,19,11,1,0,0,0,0,128,0,-1--1--1,,1|(589,216)|
+1,21,1,7,1,0,0,0,0,128,0,-1--1--1,,1|(387,280)|
+1,22,2,11,1,0,0,0,0,128,0,-1--1--1,,1|(550,284)|
+1,23,3,16,1,0,0,0,0,128,0,-1--1--1,,1|(824,244)|
+10,24,deradicalization rate,843,375,51,8,8,3,0,0,0,0,0,0
+1,25,24,16,0,0,0,0,0,128,0,-1--1--1,,1|(824,356)|
+1,26,3,30,1,0,0,0,0,128,0,-1--1--1,,1|(670,137)|
+1,27,15,2,4,0,0,22,0,0,0,-1--1--1,,3|(532,328)|(532,328)|(532,293)|
+10,28,with access to internet,185,205,43,14,8,3,0,0,0,0,0,0
+1,29,28,1,1,0,0,0,0,128,1,-1--1--1,,1|(245,217)|
+10,30,influence of radicalized,408,127,59,8,8,3,0,0,0,0,0,0
+1,31,30,6,1,0,0,0,0,128,0,-1--1--1,,1|(419,172)|
+1,32,30,10,1,0,0,0,0,128,0,-1--1--1,,1|(614,162)|
+///---\\\
+:L<%^E!@
+1:Current.vdf
+9:Current
+22:$,Dollar,Dollars,$s
+22:Hour,Hours
+22:Month,Months
+22:Person,People,Persons
+22:Unit,Units
+22:Week,Weeks
+22:Year,Years
+22:Day,Days
+15:0,0,0,1,0,0
+19:100,0
+27:2,
+34:0,
+4:Time
+5:unexposed citizens on internet
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:3
+41:0
+42:1
+24:1.51515
+25:204.545
+26:500
