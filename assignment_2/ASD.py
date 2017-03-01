@@ -14,125 +14,35 @@ from pysd import functions
 _subscript_dict = {}
 
 _namespace = {
-    'FINAL TIME': 'final_time',
+    'with access to internet': 'with_access_to_internet',
+    'exposure': 'exposure',
+    'deradicalization': 'deradicalization',
     'deradicalization rate': 'deradicalization_rate',
-    'radicalized citizens': 'radicalized_citizens',
     'TIME STEP': 'time_step',
     'persuasion': 'persuasion',
+    'FINAL TIME': 'final_time',
     'persuasion rate': 'persuasion_rate',
     'exposure rate': 'exposure_rate',
-    'exposure': 'exposure',
-    'total population': 'total_population',
-    'TIME': 'time',
-    'INITIAL TIME': 'initial_time',
     'unexposed citizens on internet': 'unexposed_citizens_on_internet',
-    'SAVEPER': 'saveper',
+    'radicalized citizens': 'radicalized_citizens',
     'exposed citizens on internet': 'exposed_citizens_on_internet',
-    'deradicalization': 'deradicalization',
+    'INITIAL TIME': 'initial_time',
+    'SAVEPER': 'saveper',
     'Time': 'time',
-    'with access to internet': 'with_access_to_internet'}
-
-
-@cache('run')
-def time_step():
-    """
-    TIME STEP
-    ---------
-    (time_step)
-    Week [0,?]
-    The time step for the simulation.
-    """
-    return 0.0625
-
-
-delay_radicalized_citizensderadicalization_rate_12_0_1 = functions.Delay(
-    lambda: radicalized_citizens() * deradicalization_rate(), lambda: 12, lambda: 0, lambda: 1)
-
-
-delay_exposurepersuasion_rate_4_0_1 = functions.Delay(
-    lambda: exposure() * persuasion_rate(),
-    lambda: 4, lambda: 0, lambda: 1)
-
-
-@cache('run')
-def persuasion_rate():
-    """
-    persuasion rate
-    ---------------
-    (persuasion_rate)
-    Dmnl
-
-    """
-    return 0.0005
-
-
-@cache('run')
-def deradicalization_rate():
-    """
-    deradicalization rate
-    ---------------------
-    (deradicalization_rate)
-    Dmnl
-
-    """
-    return 0.02
+    'total population': 'total_population',
+    'TIME': 'time'}
 
 
 @cache('step')
-def time():
+def unexposed_citizens_on_internet():
     """
-    TIME
-    ----
-    (time)
-    None
-    The time of the model
-    """
-    return _t
-
-
-@cache('step')
-def persuasion():
-    """
-    persuasion
-    ----------
-    (persuasion)
-    person/Week
+    unexposed citizens on internet
+    ------------------------------
+    (unexposed_citizens_on_internet)
+    person [0,?]
 
     """
-    return delay_exposurepersuasion_rate_4_0_1()
-
-
-integ_radicalized_citizens = functions.Integ(
-    lambda: persuasion() - deradicalization(),
-    lambda: 0.005 * total_population())
-
-
-@cache('run')
-def total_population():
-    """
-    total population
-    ----------------
-    (total_population)
-    person
-
-    """
-    return 1.31105e+09
-
-
-@cache('run')
-def exposure_rate():
-    """
-    exposure rate
-    -------------
-    (exposure_rate)
-    Dmnl
-
-    """
-    return 0.1
-
-
-integ_unexposed_citizens_on_internet = functions.Integ(
-    lambda: -exposure(), lambda: total_population() * with_access_to_internet())
+    return integ_unexposed_citizens_on_internet()
 
 
 @cache('step')
@@ -160,51 +70,64 @@ def exposure():
 
 
 @cache('step')
-def exposed_citizens_on_internet():
+def deradicalization():
     """
-    exposed citizens on internet
-    ----------------------------
-    (exposed_citizens_on_internet)
-    person
+    deradicalization
+    ----------------
+    (deradicalization)
+    person/Week
 
     """
-    return integ_exposed_citizens_on_internet()
+    return delay_radicalized_citizensderadicalization_rate_12_0_1()
 
 
-@cache('step')
-def unexposed_citizens_on_internet():
-    """
-    unexposed citizens on internet
-    ------------------------------
-    (unexposed_citizens_on_internet)
-    person [0,?]
-
-    """
-    return integ_unexposed_citizens_on_internet()
+integ_radicalized_citizens = functions.Integ(
+    lambda: persuasion() - deradicalization(),
+    lambda: 0.005 * total_population())
 
 
 @cache('run')
-def initial_time():
+def exposure_rate():
     """
-    INITIAL TIME
-    ------------
-    (initial_time)
-    Week
-    The initial time for the simulation.
+    exposure rate
+    -------------
+    (exposure_rate)
+    Dmnl
+
     """
-    return 0
+    return 0.1
 
 
 @cache('run')
-def final_time():
+def with_access_to_internet():
     """
-    FINAL TIME
-    ----------
-    (final_time)
-    Week
-    The final time for the simulation.
+    with access to internet
+    -----------------------
+    (with_access_to_internet)
+
+
     """
-    return 100
+    return 0.26
+
+
+integ_exposed_citizens_on_internet = functions.Integ(
+    lambda: deradicalization() + exposure() - persuasion(), lambda: 0)
+
+
+delay_radicalized_citizensderadicalization_rate_12_0_1 = functions.Delay(
+    lambda: radicalized_citizens() * deradicalization_rate(), lambda: 12, lambda: 0, lambda: 1)
+
+
+@cache('run')
+def persuasion_rate():
+    """
+    persuasion rate
+    ---------------
+    (persuasion_rate)
+    Dmnl
+
+    """
+    return 0.0005
 
 
 @cache('step')
@@ -219,32 +142,109 @@ def radicalized_citizens():
     return integ_radicalized_citizens()
 
 
+@cache('run')
+def initial_time():
+    """
+    INITIAL TIME
+    ------------
+    (initial_time)
+    Week
+    The initial time for the simulation.
+    """
+    return 0
+
+
 @cache('step')
-def deradicalization():
+def exposed_citizens_on_internet():
     """
-    deradicalization
-    ----------------
-    (deradicalization)
-    person/Week
+    exposed citizens on internet
+    ----------------------------
+    (exposed_citizens_on_internet)
+    person
 
     """
-    return delay_radicalized_citizensderadicalization_rate_12_0_1()
-
-
-integ_exposed_citizens_on_internet = functions.Integ(
-    lambda: deradicalization() + exposure() - persuasion(), lambda: 0)
+    return integ_exposed_citizens_on_internet()
 
 
 @cache('run')
-def with_access_to_internet():
+def deradicalization_rate():
     """
-    with access to internet
-    -----------------------
-    (with_access_to_internet)
+    deradicalization rate
+    ---------------------
+    (deradicalization_rate)
+    Dmnl
+
+    """
+    return 0.02
 
 
+@cache('run')
+def total_population():
     """
-    return 0.26
+    total population
+    ----------------
+    (total_population)
+    person
+
+    """
+    return 1.31105e+09
+
+
+delay_exposurepersuasion_rate_4_0_1 = functions.Delay(
+    lambda: exposure() * persuasion_rate(),
+    lambda: 4, lambda: 0, lambda: 1)
+
+
+@cache('run')
+def time_step():
+    """
+    TIME STEP
+    ---------
+    (time_step)
+    Week [0,?]
+    The time step for the simulation.
+    """
+    return 0.0625
+
+
+@cache('step')
+def time():
+    """
+    TIME
+    ----
+    (time)
+    None
+    The time of the model
+    """
+    return _t
+
+
+@cache('step')
+def persuasion():
+    """
+    persuasion
+    ----------
+    (persuasion)
+    person/Week
+
+    """
+    return delay_exposurepersuasion_rate_4_0_1()
+
+
+@cache('run')
+def final_time():
+    """
+    FINAL TIME
+    ----------
+    (final_time)
+    Week
+    The final time for the simulation.
+    """
+    return 100
+
+
+integ_unexposed_citizens_on_internet = functions.Integ(
+    lambda: -exposure(), lambda: total_population() * with_access_to_internet())
 
 
 def time():
