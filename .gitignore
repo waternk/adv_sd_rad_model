@@ -1,2 +1,4 @@
 *.vdf
 */__pycache__/*
+*.mdl
+*.xslx
