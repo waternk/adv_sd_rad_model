@@ -1,4 +1,4 @@
-Country;Foreign_Fighters;;
+Country Name;Foreign_Fighters;;
 Albania;90;;
 Austria;150;;
 Belarus;10;;
@@ -22,7 +22,7 @@ Latvia;0;;
 Liechtenstein;0;;
 Lithuania;0;;
 Luxembourg;1;;
-Macedonia, FYR;24;;
+Macedonia FYR;24;;
 Malta;0;;
 Moldova;4;;
 Netherlands;250;;
