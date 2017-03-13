@@ -113,18 +113,6 @@ integ_exposed_citizens_on_internet = functions.Integ(
     lambda: deradicalization() + exposure() - persuasion(), lambda: 0)
 
 
-@cache('step')
-def time():
-    """
-    TIME
-    ----
-    (time)
-    None
-    The time of the model
-    """
-    return _t
-
-
 @cache('run')
 def percent_of_muslims_in_population():
     """
