@@ -2,6 +2,9 @@ class Element (object):
     def __init__ (self,name):
         self.name=name
 
+    def __str__(self):
+        return self.name
+
 from enum import Enum
 
 class ValueTypeConstant(Enum):
@@ -26,6 +29,9 @@ class ValueElement (Element):
         Element.__init__(self,name)
         self.valueType = valueType
 
+    def __str__(self):
+        return "Value [" + self.name + "]"
+
 class Variable (ValueElement):
     def __init__(self,name,valueType):
         ValueElement.__init__(self,name,valueType)
@@ -35,6 +41,9 @@ class Flow (ValueElement):
         ValueElement.__init__(self,name,valueType)   
         self.src = src
         self.dst = dst
+
+	def __str__(self):
+		return str(self.src) + " => " + str(self.dst)
 
 class StockElement (Element): pass
 class Source (StockElement): pass
