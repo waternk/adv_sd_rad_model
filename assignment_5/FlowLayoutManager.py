@@ -1,38 +1,27 @@
 import warnings
 from SVGElement import Rectangle
 
-class Flow(object):
-	def __init__(self, out = False):
+class FlowWrapper(object):
+	def __init__(self, flow, out):
+		self.flow = flow
 		self.out = out
 		self.class_name = 'outflow' if self.out else 'inflow'
 
 class FlowPlacement(object):
-	def __init__(self, flows):
-		for flow in flows:
-			if flow.out:
-				self.addOutFlow(flow)
-			else:
-				self.addInFlow(flow)
+	def __init__(self, placement_data):
+		in_flows = placement_data[0]
+		out_flows = placement_data[1]
+		flow_place = placement_data[2]
+		flow_sign = placement_data[3]
 
-	def addOutFlow(self, flow):
-		if not 'right' in vars(self):
-			self.right = flow
-		elif not 'down' in vars(self):
-			self.down = flow
-		elif not 'up' in vars(self):
-			self.up = flow
-		elif not 'left' in vars(self):
-			self.left = flow
-
-	def addInFlow(self, flow):
-		if not 'left' in vars(self):
-			self.left = flow
-		elif not 'up' in vars(self):
-			self.up = flow
-		elif not 'down' in vars(self):
-			self.down = flow
-		elif not 'right' in vars(self):
-			self.right = flow
+		if 'left' in flow_place:
+			self.left = FlowWrapper(flow_place['left'], flow_sign['left'] == 'out')
+		if 'up' in flow_place:
+			self.up = FlowWrapper(flow_place['up'], flow_sign['up'] == 'out')
+		if 'right' in flow_place:
+			self.right = FlowWrapper(flow_place['right'], flow_sign['right'] == 'out')
+		if 'down' in flow_place:
+			self.down = FlowWrapper(flow_place['down'], flow_sign['down'] == 'out')
 
 class FlowLayoutManager(object):
 	def __init__(self, x, y, width, height):

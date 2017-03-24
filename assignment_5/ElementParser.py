@@ -2,7 +2,7 @@ import parsimonious
 from FileParser import FileParser
 from ModelParser import ModelParser
 from ComponentParser import ComponentParser
-from ModelObjects import Element, Stock, ValueElement, Flow, Variable, ValueType, ValueTypeConstant, Source, Sink
+from ModelObjects import Element, Stock, ValueElement, Flow, Variable, Source, Sink
 import re
 
 class ElementParser(object):
@@ -46,7 +46,7 @@ class ElementParser(object):
 		stock_mapping = {}
 
 		for stock in stocks:
-			el = Stock(stock['real_name'],ValueType('0',ValueTypeConstant.constant))
+			el = Stock(stock['real_name'],'unit')
 			elements.append(el)
 			stock_mapping[stock['real_name']] = el
 
@@ -56,7 +56,7 @@ class ElementParser(object):
 		elements = []
 
 		for variable in variables:
-			elements.append(Variable(variable['real_name'],ValueType('0',ValueTypeConstant.constant)))
+			elements.append(Variable(variable['real_name'], 'unit'))
 
 		return elements
 
@@ -72,7 +72,7 @@ class ElementParser(object):
 					src = stock_mapping[stock['real_name']]
 				elif flow_name in stock['eqn']:
 					dst = stock_mapping[stock['real_name']]
-			elements.append(Flow(flow_name,ValueType('0',ValueTypeConstant.constant),src, dst))
+			elements.append(Flow(flow_name,'unit',src, dst))
 
 		return elements
 

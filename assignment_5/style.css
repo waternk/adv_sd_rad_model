@@ -20,14 +20,6 @@ svg {
 	stroke-width:1;
 }
 
-.A {
+.unit {
 	fill:rgb(0,128,255);
-}
-
-.A:hover {
-	opacity:0.5;
-}
-
-.B {
-	fill:rgb(255,128,0);
 }

@@ -31,6 +31,11 @@ class Circle(SVGElement):
 		self.cy = cy
 		self.r = r
 
+class SemiCircle(SVGElement):
+	def __init__(self, class_name, cx, cy, r):
+		SVGElement.__init__(self, "path", class_name)
+		self.d = "M{0},{1} a{2},{3} {4} {5},{6} {7},{8}".format(cx-r,cy,r,r,0,0,0,2*r,0)
+
 class PartialCircle(Circle):
 	def __init__(self, class_name, cx, cy, r):
 		Circle.__init__(self, class_name, cx, cy, r)

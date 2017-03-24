@@ -1,16 +1,17 @@
 from PageBuilder import PageBuilder, SVGBuilder
 from BoxLayoutManager import BoxLayoutManager
-from FlowLayoutManager import FlowPlacement, Flow
 
 class Box(object):
-	def __init__(self, unit_name, placement, rows, cols):
+	def __init__(self, name, unit_name, run_data, placement, rows, cols):
+		self.name = name
 		self.unit_name = unit_name
 		self.placement = placement
 		self.rows = rows
 		self.cols = cols
+		self.run_data = run_data
 
 	def entityCount(self):
-		count = (self.rows * self.cols) / 2.0
+		count = self.run_data[0]
 		return (int(count), (int(count) == 0 and count > 0))
 
 class BoxDrawer(object):
@@ -30,12 +31,3 @@ class BoxDrawer(object):
 		with open(self.drawing_name + '.html', 'w') as file: 
 			for line in drawing:
 				file.write(line)
-
-placement = FlowPlacement([Flow(), Flow(), Flow(True), Flow(True), Flow()])
-boxes = [Box('A',placement,1,1), Box('A',placement,4,4), 
-	Box('A',placement,5,5), Box('B',placement,3,4), 
-	Box('A',placement,2,2), Box('A',placement,3,3), 
-	Box('B',placement,9,9)]
-
-drawer = BoxDrawer('index', 750, 750)
-drawer.draw(boxes)

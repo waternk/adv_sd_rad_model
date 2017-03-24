@@ -1,4 +1,4 @@
-from SVGElement import Circle, PartialCircle
+from SVGElement import Circle, SemiCircle
 
 class EntityLayoutManager(object):
 	def __init__(self, box, x, y, width, height, spacing = 5):
@@ -36,7 +36,7 @@ class EntityLayoutManager(object):
 
 		if partial:
 			(x, y) = self.position(0)
-			elements.append(PartialCircle(self.unit_name, x, y, self.circle_radius))
+			elements.append(SemiCircle(self.unit_name, x, y, self.circle_radius))
 		else:
 			# Silent failure if there are more boxes than rows and columns in the drawing
 			for i in range(0, min(entity_count, self.rows * self.cols)):
