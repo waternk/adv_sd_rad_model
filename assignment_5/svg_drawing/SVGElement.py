@@ -1,31 +1,16 @@
 def quotify(obj):
 	return '\"' + str(obj) + '\"'
 
-class Style(object):
-	def __init__(self, fill = "", stroke = "", stroke_width = 1):
-		self.fill = fill
-		self.stroke = stroke
-		self.stroke_width = stroke_width
-
-	def asSVG(self):
-		object_attributes = vars(self).copy()
-		format_attribute = quotify(";".join([self.stringify(k,v) for k, v in object_attributes.iteritems()]))
-		return "style={0}".format(format_attribute)
-
-	def stringify(self, key, value):
-		return str(key).replace("_", "-") + ":" + str(value)
-
 class SVGElement(object):
-	def __init__(self, name, style):
+	def __init__(self, name, class_name):
 		self.name = name
-		self.style = style
+		self.class_name = class_name
 
-	def asSVG(self):
-		object_attributes = vars(self).copy()
-		object_attributes.pop('style')
+	def text(self):
+		object_attributes = vars(self)
 
 		pre = ["<" + self.name]
-		post = [self.style.asSVG() + "/>"]
+		post = ["/>"]
 		formatted_attributes = pre + map(lambda k: self.formatAttribute(k), object_attributes.viewkeys()) + post
 		
 		format_string = " ".join(formatted_attributes)
@@ -34,23 +19,31 @@ class SVGElement(object):
 		return format_string.format(format_attributes)
 
 	def formatAttribute(self, attribute):
-		return str(attribute) + "={0[" + str(attribute) + "]}"
+		if attribute == 'class_name':
+			return 'class={0[class_name]}'
+		else:	
+			return str(attribute) + "={0[" + str(attribute) + "]}"
 
 class Circle(SVGElement):
-	def __init__(self, style, cx, cy, r):
-		SVGElement.__init__(self, "circle", style)
+	def __init__(self, class_name, cx, cy, r):
+		SVGElement.__init__(self, "circle", class_name)
 		self.cx = cx
 		self.cy = cy
 		self.r = r
 
+class PartialCircle(Circle):
+	def __init__(self, class_name, cx, cy, r):
+		Circle.__init__(self, class_name, cx, cy, r)
+		self.id = 'partial'
+
 class Rectangle(SVGElement):
-	def __init__(self, style, x, y, width, height):
-		SVGElement.__init__(self, "rect", style)
+	def __init__(self, class_name, x, y, width, height):
+		SVGElement.__init__(self, "rect", class_name)
 		self.x = x
 		self.y = y
 		self.width = width
 		self.height = height
 
 class Square(Rectangle):
-	def __init__(self, style, x, y, length):
-		Rectangle.__init__(self, style, x, y, length, length)
+	def __init__(self, class_name, x, y, length):
+		Rectangle.__init__(self, class_name, x, y, length, length)
