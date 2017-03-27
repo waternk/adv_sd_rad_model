@@ -30,24 +30,28 @@ class FlowLayoutManager(object):
 		self.width = width
 		self.height = height
 
-	def layout(self, placement):
+	def layout(self, box_name, placement):
 		elements = []
 
 		if 'left' in vars(placement):
 			(x, y, w, h) = self.leftBox()
-			elements.append(Rectangle(placement.left.class_name, x, y, w, h))
+			flow_name = box_name + "_left"
+			elements.append(Rectangle(flow_name, placement.left.class_name, x, y, w, h))
 
 		if 'up' in vars(placement):
 			(x, y, w, h) = self.upBox()
-			elements.append(Rectangle(placement.up.class_name, x, y, w, h))
+			flow_name = box_name + "_up"
+			elements.append(Rectangle(flow_name, placement.up.class_name, x, y, w, h))
 
 		if 'right' in vars(placement):
 			(x, y, w, h) = self.rightBox()
-			elements.append(Rectangle(placement.right.class_name, x, y, w, h))
+			flow_name = box_name + "_right"
+			elements.append(Rectangle(flow_name, placement.right.class_name, x, y, w, h))
 
 		if 'down' in vars(placement):
 			(x, y, w, h) = self.downBox()
-			elements.append(Rectangle(placement.down.class_name, x, y, w, h))
+			flow_name = box_name + "_down"
+			elements.append(Rectangle(flow_name, placement.down.class_name, x, y, w, h))
 
 		return elements
 

@@ -6,7 +6,7 @@ class ModelRunner(object):
 	def __init__(self, model_path):
 		self.model_path = model_path
 
-	def run(self, stocks):
+	def run(self, stocks, ball_rows, ball_cols):
 		PySD_model = pysd.read_vensim(self.model_path)
 
 		groups = {}
@@ -22,6 +22,6 @@ class ModelRunner(object):
 		stock_groups = []
 		for unit in groups:
 			group = groups[unit]
-			stock_groups.append(StockGroup(unit, group, run_data[map(lambda s: s.name, group)]))
+			stock_groups.append(StockGroup(unit, group, run_data[map(lambda s: s.name, group)], ball_rows, ball_cols))
 
 		return stock_groups

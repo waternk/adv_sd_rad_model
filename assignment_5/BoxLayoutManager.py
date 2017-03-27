@@ -3,7 +3,7 @@ from EntityLayoutManager import EntityLayoutManager
 from FlowLayoutManager import FlowLayoutManager
 
 class BoxLayoutManager(object):
-	def __init__(self, width = 300, height = 300, rows = 3, cols = 3, spacing = 15):
+	def __init__(self, width, height, rows, cols, spacing = 15):
 		self.width = width
 		self.height = height
 		self.rows = rows
@@ -35,15 +35,15 @@ class BoxLayoutManager(object):
 
 		# Silent failure if there are more boxes than rows and columns in the drawing
 		for i in range(0, min(len(boxes), self.rows * self.cols)):
+			box = boxes[i]
 			(x, y) = self.position(i)
-			elements.append(Square('box', x, y, self.box_size))
+			elements.append(Square(box.name, 'box', x, y, self.box_size))
 
-			entity_layout_manager = EntityLayoutManager(boxes[i], x, y, self.box_size, self.box_size)
-			(count, partial) = boxes[i].entityCount()
-			elements.extend(entity_layout_manager.layout(count, partial))
+			entity_layout_manager = EntityLayoutManager(box, x, y, self.box_size, self.box_size)
+			elements.extend(entity_layout_manager.layout())
 
 			flow_layout_manager = FlowLayoutManager(x, y, self.box_size, self.box_size)
-			elements.extend(flow_layout_manager.layout(boxes[i].placement))
+			elements.extend(flow_layout_manager.layout(box.name, box.placement))
 
 		return elements
 
