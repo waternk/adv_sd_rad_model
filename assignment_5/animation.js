@@ -4,7 +4,7 @@ function animate() {
 	var snap = Snap("#animation_svg")
 
 	time = 0
-	max_time = 1000
+	max_time = run_settings['run_length']
 
 	fillBoxes(snap, time)	
 
@@ -16,7 +16,7 @@ function animate() {
 		} else {
 
 		}
-	}, 500);
+	}, run_settings['run_speed']);
 }
 
 function fillBoxes(snap, time) {

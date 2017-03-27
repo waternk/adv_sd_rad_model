@@ -5,8 +5,9 @@ class PageBuilder(object):
 		pre = ["<!DOCTYPE html>", "<html>", "<head>", 
 			"<link rel=\"stylesheet\" href=\"style.css\"/>",
 			"<script src=\"snap.svg-min.js\"></script>",
-			"<script src=\"animation.js\"></script>"
-			"<script src=\"run_data.js\"></script>"
+			"<script src=\"animation.js\"></script>",
+			"<script src=\"run_data.js\"></script>",
+			"<script src=\"run_settings.js\"></script>",
 			"</head>", "<body>"]
 		post = ["</body>", "</html>"]
 
