@@ -4,7 +4,9 @@ from FlowLayoutManager import FlowLayoutManager
 from math import cos, sin, sqrt, radians, pi
 
 class BoxLayoutManager(object):
-	def __init__(self, width, height, boxes):
+	def __init__(self, x, y, width, height, boxes):
+		self.x = x
+		self.y = y
 		self.width = width
 		self.height = height
 		self.boxes = boxes
@@ -43,7 +45,7 @@ class BoxLayoutManager(object):
 	def layout(self):
 		elements = []
 
-		elements.append(Circle('box_placement', 'background', self.width/2, self.height/2, self.inner_radius))
+		elements.append(Circle('box_placement', 'background', self.x + self.width/2, self.y + self.height/2, self.inner_radius))
 
 		# Silent failure if there are more boxes than rows and columns in the drawing
 		for i in range(0, len(self.boxes)):
@@ -62,7 +64,7 @@ class BoxLayoutManager(object):
 	def position(self, index):
 		angle = self.angle * index + self.angle_shift
 
-		x = (self.width/2 + self.inner_radius * cos(angle)) - self.box_size/2
-		y = (self.height/2 + self.inner_radius * sin(angle)) - self.box_size/2
+		x = self.x + ((self.width/2 + self.inner_radius * cos(angle)) - self.box_size/2)
+		y = self.y + ((self.height/2 + self.inner_radius * sin(angle)) - self.box_size/2)
 
 		return (x,y)

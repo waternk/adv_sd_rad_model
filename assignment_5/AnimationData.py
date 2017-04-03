@@ -8,14 +8,15 @@ class AnimationData(object):
 		self.run_length = 0
 		self.run_data = {}
 
-	def updateData(self, boxes):
+	def updateData(self, groups):
 		self.run_data.clear()
 		run_length = 0
 
-		for box in boxes:
-			data = list(box.run_data)
-			run_length = max(len(data), run_length)
-			self.run_data[box.name] = data
+		for group in groups:
+			for box in group.boxes:
+				data = list(box.run_data)
+				run_length = max(len(data), run_length)
+				self.run_data[box.name] = data
 
 		self.run_length = run_length
 

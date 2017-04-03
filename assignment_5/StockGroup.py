@@ -1,19 +1,21 @@
 from FlowLayoutManager import FlowPlacement
-from BoxDrawer import Box
+from Box import Box
 
 class StockGroup(object):
-	def __init__(self, unit_name, stocks, run_data, settings):
+	def __init__(self, unit_name, stocks, placements, run_data, settings):
 		self.unit_name = unit_name
 		self.stocks = stocks
 		self.run_data = run_data
 		self.rows = settings.ball_rows
 		self.cols = settings.ball_cols
+		self.placements = placements
+		self.boxes = self.build_boxes()
 
-	def boxes(self, placements):
+	def build_boxes(self):
 		ball_counts = self.ballCount()
 		boxes = []
 		for stock in self.stocks:
-			placement = placements[stock]
+			placement = self.placements[stock]
 			box = Box(stock.name, self.unit_name, ball_counts[stock.name], FlowPlacement(placement), self.rows, self.cols)
 
 			if boxes:

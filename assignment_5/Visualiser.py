@@ -1,6 +1,6 @@
 from ElementProvider import ElementProvider
 from ModelRunner import ModelRunner
-from BoxDrawer import BoxDrawer
+from GroupDrawer import GroupDrawer
 from AnimationData import AnimationData
 from VisualisationSettings import VisualisationSettings
 
@@ -14,13 +14,11 @@ class Visualiser(object):
 
 	def visualise(self, run_speed = 1000):
 		(placements, stocks, _) = self.provider.provide()
-		groups = self.model_runner.run(stocks, self.settings)
-		boxes = [box for group in groups for box in group.boxes(placements)]
-
-		drawer = BoxDrawer(self.name, self.settings, boxes)
+		groups = self.model_runner.run(stocks, placements, self.settings)
+		drawer = GroupDrawer(self.name, self.settings, groups)
 		drawer.draw()
 
-		self.animation_data.updateData(boxes)
+		self.animation_data.updateData(groups)
 		self.animation_data.exportRunData()
 		self.adjustRunSpeed(run_speed)
 
