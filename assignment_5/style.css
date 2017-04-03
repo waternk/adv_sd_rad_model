@@ -25,5 +25,5 @@ svg {
 }
 
 .unit {
-	fill:rgb(0,128,255);
+	fill:url(#unit_pattern)
 }

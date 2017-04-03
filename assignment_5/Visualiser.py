@@ -12,11 +12,11 @@ class Visualiser(object):
 		self.animation_data = AnimationData(settings)
 		self.settings = settings
 
-	def visualise(self, run_speed = 1000):
+	def visualise(self, images, run_speed = 1000):
 		(placements, stocks, _) = self.provider.provide()
 		groups = self.model_runner.run(stocks, placements, self.settings)
 		drawer = GroupDrawer(self.name, self.settings, groups)
-		drawer.draw()
+		drawer.draw(images)
 
 		self.animation_data.updateData(groups)
 		self.animation_data.exportRunData()
@@ -26,11 +26,11 @@ class Visualiser(object):
 		self.animation_data.adjustRunSpeed(run_speed)
 		self.animation_data.exportSettings()
 
-width = 400
-height = 400
-ball_rows = 8
-ball_cols = 8
+width = 600
+height = 600
+ball_rows = 5
+ball_cols = 5
 
 settings = VisualisationSettings(width, height, ball_rows, ball_cols)
 visualiser = Visualiser('index', 'ASD_2.mdl', settings)
-visualiser.visualise()
+visualiser.visualise({'unit' : 'family.png'}, 100)

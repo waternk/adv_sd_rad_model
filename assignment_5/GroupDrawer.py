@@ -14,14 +14,17 @@ class GroupLayoutManager(object):
 
 	def layout(self):
 		elements = []
+		entity_sizes = {}
 
 		for i in range(0, len(self.groups)):
 			group = self.groups[i]
 			(x, y) = self.position(i)
 			box_layout_manager = BoxLayoutManager(x, y, self.width, self.height, group.boxes)
-			elements.extend(box_layout_manager.layout())
+			(elems, entity_size) = box_layout_manager.layout()
+			elements.extend(elems)
+			entity_sizes[group.unit_name] = entity_size
 
-		return elements
+		return (elements, entity_sizes)
 
 	def position(self, index):
 		x = 0
@@ -36,10 +39,10 @@ class GroupDrawer(object):
 		self.height = settings.height
 		self.layout_manager = GroupLayoutManager(self.width, self.height, groups)
 
-	def draw(self):
-		svg_elements = self.layout_manager.layout()
+	def draw(self, images):
+		(svg_elements, entity_sizes) = self.layout_manager.layout()
 		svg_builder = SVGBuilder(self.width, self.height)
-		drawing = PageBuilder().build(svg_builder.build(svg_elements))
+		drawing = PageBuilder().build(svg_builder.build(svg_elements, entity_sizes, images))
 		self.save(drawing)
 
 	def save(self, drawing):

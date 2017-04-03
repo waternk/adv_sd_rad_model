@@ -47,6 +47,8 @@ class BoxLayoutManager(object):
 
 		elements.append(Circle('box_placement', 'background', self.x + self.width/2, self.y + self.height/2, self.inner_radius))
 
+		entity_sizes = [0]
+
 		# Silent failure if there are more boxes than rows and columns in the drawing
 		for i in range(0, len(self.boxes)):
 			box = self.boxes[i]
@@ -54,12 +56,13 @@ class BoxLayoutManager(object):
 			elements.append(Square(box.name, 'box', x, y, self.box_size))
 
 			entity_layout_manager = EntityLayoutManager(box, x, y, self.box_size, self.box_size)
+			entity_sizes.append(entity_layout_manager.circle_radius)
 			elements.extend(entity_layout_manager.layout())
 
 			flow_layout_manager = FlowLayoutManager(x, y, self.box_size, self.box_size)
 			elements.extend(flow_layout_manager.layout(box.name, box.placement))
 
-		return elements
+		return (elements, max(entity_sizes) * 2)
 
 	def position(self, index):
 		angle = self.angle * index + self.angle_shift
