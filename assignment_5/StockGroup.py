@@ -2,12 +2,12 @@ from FlowLayoutManager import FlowPlacement
 from BoxDrawer import Box
 
 class StockGroup(object):
-	def __init__(self, unit_name, stocks, run_data, rows, cols):
+	def __init__(self, unit_name, stocks, run_data, settings):
 		self.unit_name = unit_name
 		self.stocks = stocks
 		self.run_data = run_data
-		self.rows = rows
-		self.cols = cols
+		self.rows = settings.ball_rows
+		self.cols = settings.ball_cols
 
 	def boxes(self, placements):
 		boxes = []

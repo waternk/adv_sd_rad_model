@@ -5,24 +5,24 @@ function animate() {
 
 	time = 0
 	max_time = run_settings['run_length']
+	max_entities = run_settings['max_entities']
 
-	fillBoxes(snap, time)	
+	fillBoxes(snap, max_entities, time)	
 
 	setInterval(function() {
 		if (time+1 < max_time) {
 			time += 1
-			console.log(time)
-			fillBoxes(snap, time)		
+			fillBoxes(snap, max_entities, time)		
 		} else {
 
 		}
 	}, run_settings['run_speed']);
 }
 
-function fillBoxes(snap, time) {
+function fillBoxes(snap, max_entities, time) {
 	var elements = snap.selectAll('.box')
 	elements.forEach(function(elem) {
-		fillBox(snap, elem, 100, time)
+		fillBox(snap, elem, max_entities, time)
 	})
 }
 

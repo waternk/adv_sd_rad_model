@@ -2,6 +2,10 @@ svg {
 	background-color:rgb(255,255,255);
 }
 
+.background {
+	fill:rgb(240, 240, 240);
+}
+
 #partial {
 	fill:rgb(230,230,230);	
 }

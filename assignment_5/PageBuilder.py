@@ -20,7 +20,7 @@ class SVGBuilder(object):
 
 	def build(self, svg_elements):
 		pre = ["<svg id=\"animation_svg\" width={0} height={1}>".format(quotify(self.width), quotify(self.height))]
-		elements = map(lambda e: e.text(), svg_elements)
+		elements = list(map(lambda e: e.text(), svg_elements))
 		post = ["</svg>"]
 
 		return pre + elements + post

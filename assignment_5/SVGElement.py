@@ -12,10 +12,12 @@ class SVGElement(object):
 
 		pre = ["<" + self.tag_name]
 		post = ["/>"]
-		formatted_attributes = pre + map(lambda k: self.formatAttribute(k), object_attributes.viewkeys()) + post
+		# list(map(lambda k: self.formatAttribute(k), object_attributes.viewkeys()))
+		tag_attributes = [self.formatAttribute(k) for k,v in object_attributes.items()]
+		formatted_attributes = pre + tag_attributes + post
 		
 		format_string = " ".join(formatted_attributes)
-		format_attributes = {k: quotify(v) for k, v in object_attributes.iteritems()}
+		format_attributes = {k: quotify(v) for k, v in object_attributes.items()}
 		
 		return format_string.format(format_attributes)
 

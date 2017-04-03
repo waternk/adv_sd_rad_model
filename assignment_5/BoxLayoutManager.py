@@ -1,41 +1,53 @@
-from SVGElement import Square
+from SVGElement import Square, Circle
 from EntityLayoutManager import EntityLayoutManager
 from FlowLayoutManager import FlowLayoutManager
+from math import cos, sin, sqrt, radians, pi
 
 class BoxLayoutManager(object):
-	def __init__(self, width, height, rows, cols, spacing = 15):
+	def __init__(self, width, height, boxes):
 		self.width = width
 		self.height = height
-		self.rows = rows
-		self.cols = cols
-		self.spacing = spacing
-		self.box_size = self.boxSize()
-		self.vertical_spacing = self.verticalSpacing(self.box_size)
-		self.horizontal_spacing = self.horizontalSpacing(self.box_size)
+		self.boxes = boxes
 
-	def boxSize(self):
-		# width = hor_length * cols + spacing * (cols+1)
-		hor_length = (self.width - self.spacing * (self.cols+1)) / self.cols
+		box_len = len(boxes)
 
-		# height = ver_length * rows + spacing * (rows+1)
-		ver_length = (self.height - self.spacing * (self.rows+1)) / self.rows
+		self.angle = radians(360 / box_len)
+		self.angle_shift = pi / box_len
+		self.box_size = self.boxSize(box_len)
+		self.inner_radius = self.innerRadius(self.box_size)
 
-		return min(hor_length, ver_length)
+	def boxSize(self, box_count):
 
-	def verticalSpacing(self, box_size):
-		# height = box_size * rows + ver_spacing * (rows+1)
-		return (self.height - box_size*self.rows) / (self.rows+1)
+		# min(width, height) = box_size / 2 + radius + radius + box_size / 2
+		# min(width, height) = box_size + 2*radius
 
-	def horizontalSpacing(self, box_size):
-		# width = hor_length * cols + spacing * (cols+1)
-		return (self.width - box_size*self.cols) / (self.cols+1)
+		outer_radius = min(self.width, self.height) / 2
 
-	def layout(self, boxes):
+		x0 = self.width/2 + outer_radius * cos(0)
+		y0 = self.height/2 + outer_radius * sin(0)
+		x1 = self.width/2 + outer_radius * cos(self.angle)
+		y1 = self.height/2 + outer_radius * sin(self.angle)
+
+		dx = x1 - x0
+		dy = y1 - y0
+		dist = sqrt(dx*dx + dy*dy)
+
+		return int(dist * 0.45)
+
+	def innerRadius(self, box_size):
+		# outer_radius = box_size + 2*radius
+		# (outer_radius - box_size) / 2 = radius
+
+		return (min(self.width, self.height) - box_size) / 2
+
+	def layout(self):
 		elements = []
 
+		elements.append(Circle('box_placement', 'background', self.width/2, self.height/2, self.inner_radius))
+
 		# Silent failure if there are more boxes than rows and columns in the drawing
-		for i in range(0, min(len(boxes), self.rows * self.cols)):
-			box = boxes[i]
+		for i in range(0, len(self.boxes)):
+			box = self.boxes[i]
 			(x, y) = self.position(i)
 			elements.append(Square(box.name, 'box', x, y, self.box_size))
 
@@ -48,10 +60,9 @@ class BoxLayoutManager(object):
 		return elements
 
 	def position(self, index):
-		row = index / self.cols
-		col = index % self.cols
+		angle = self.angle * index + self.angle_shift
 
-		x = self.horizontal_spacing + col * (self.box_size + self.horizontal_spacing)
-		y = self.vertical_spacing + row * (self.box_size + self.vertical_spacing)
+		x = (self.width/2 + self.inner_radius * cos(angle)) - self.box_size/2
+		y = (self.height/2 + self.inner_radius * sin(angle)) - self.box_size/2
 
 		return (x,y)

@@ -4,11 +4,17 @@ from ElementParser import ElementParser
 class ElementProvider(object):
 	def __init__(self, model_path):
 		self.model_path = model_path
-		self.elements = ElementParser(model_path).parse()
+		self.parser = ElementParser(model_path)
 
-	def placements(self):
-		stocks = self.stocks()
-		flows = self.flows()
+	def provide(self):
+		elements = self.parser.parse()
+
+		stocks = self.stocks(elements)
+		flows = self.flows(elements)
+
+		return (self.placements(stocks, flows), stocks, flows)
+
+	def placements(self, stocks, flows):
 		in_out_flows = self.inOutFlows(stocks, flows)
 
 		if self.checkNumberOfFlows(in_out_flows):
@@ -16,16 +22,16 @@ class ElementProvider(object):
 		else:
 			print("The model has one or more stocks with more than four in or out flows")
 
-	def stocks(self):
+	def stocks(self, elements):
 		stocks = []
-		for elem in self.elements:
+		for elem in elements:
 			if type(elem) == ModelObjects.Stock:
 				stocks.append(elem)
 		return stocks
 
-	def flows(self):
+	def flows(self, elements):
 		flows = []
-		for elem in self.elements:
+		for elem in elements:
 			if type(elem) == ModelObjects.Flow:
 				flows.append(elem)
 		return flows
