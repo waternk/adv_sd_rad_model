@@ -10,13 +10,43 @@ class StockGroup(object):
 		self.cols = settings.ball_cols
 
 	def boxes(self, placements):
-		boxes = []
 		ball_counts = self.ballCount()
+		boxes = []
 		for stock in self.stocks:
-			placement = FlowPlacement(placements[stock])
-			boxes.append(Box(stock.name, self.unit_name, ball_counts[stock.name], placement, self.rows, self.cols))
+			placement = placements[stock]
+			box = Box(stock.name, self.unit_name, ball_counts[stock.name], FlowPlacement(placement), self.rows, self.cols)
+
+			if boxes:
+				index = self.insertPosition(placement, box, boxes)
+				boxes.insert(index, box)
+			else:
+				boxes.append(box)
 
 		return boxes
+
+	def insertPosition(self, placement, box, boxes):
+		inflows = placement[0]
+		outflows = placement[1]
+		
+		position = 0
+		profit = 0
+		for i in range(0, len(boxes)):
+			box_name = boxes[i].name
+
+			current_profit = 0
+			for flow in inflows:
+				if flow.src.name == box_name:
+					current_profit += 1
+
+			for flow in outflows:
+				if flow.dst.name == box_name:
+					current_profit += 1
+
+			if current_profit > profit:
+				position = i
+				profit = current_profit
+
+		return position
 
 	def ballCount(self):
 		totals = self.run_data.sum(axis=1)

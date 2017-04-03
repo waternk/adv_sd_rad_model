@@ -27,3 +27,12 @@ class Visualiser(object):
 	def adjustRunSpeed(self, run_speed):
 		self.animation_data.adjustRunSpeed(run_speed)
 		self.animation_data.exportSettings()
+
+width = 400
+height = 400
+ball_rows = 8
+ball_cols = 8
+
+settings = VisualisationSettings(width, height, ball_rows, ball_cols)
+visualiser = Visualiser('index', 'ASD_2.mdl', settings)
+visualiser.visualise()
