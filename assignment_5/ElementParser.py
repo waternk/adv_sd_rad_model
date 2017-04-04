@@ -46,7 +46,7 @@ class ElementParser(object):
 		stock_mapping = {}
 
 		for stock in stocks:
-			el = Stock(stock['real_name'],'unit')
+			el = Stock(stock['real_name'], stock['unit'])
 			elements.append(el)
 			stock_mapping[stock['real_name']] = el
 
@@ -54,9 +54,14 @@ class ElementParser(object):
 
 	def transformVariables(self, variables):
 		elements = []
+		registered_variables = []
 
 		for variable in variables:
-			elements.append(Variable(variable['real_name'], 'unit'))
+			name = variable['real_name']
+
+			if name not in registered_variables:
+				elements.append(Variable(name, variable['unit']))
+				registered_variables.append(name)
 
 		return elements
 
@@ -72,7 +77,8 @@ class ElementParser(object):
 					src = stock_mapping[stock['real_name']]
 				elif flow_name in stock['eqn']:
 					dst = stock_mapping[stock['real_name']]
-			elements.append(Flow(flow_name,'unit',src, dst))
+
+			elements.append(Flow(flow_name, src.unit, src, dst))
 
 		return elements
 

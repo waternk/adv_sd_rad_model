@@ -24,6 +24,6 @@ svg {
 	stroke-width:1;
 }
 
-.unit {
-	fill:url(#unit_pattern)
+.person {
+	fill:url(#person_pattern)
 }

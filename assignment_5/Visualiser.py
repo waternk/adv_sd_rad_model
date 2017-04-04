@@ -32,5 +32,5 @@ ball_rows = 5
 ball_cols = 5
 
 settings = VisualisationSettings(width, height, ball_rows, ball_cols)
-visualiser = Visualiser('index', 'ASD_2.mdl', settings)
-visualiser.visualise({'unit' : 'family.png'}, 100)
+visualiser = Visualiser('index', 'bitcoins.mdl', settings)
+visualiser.visualise({'person' : 'family.png'}, 100)

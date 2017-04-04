@@ -31,9 +31,10 @@ class SVGBuilder(object):
 
 		body = []
 		for k,v in entity_sizes.items():
-			body.append("<pattern id=\"{0}_pattern\" x=\"0\" y=\"0\" width=\"{1}\" height=\"{1}\">".format(k,v))
-			body.append("<image xlink:href=\"{0}\" width=\"{1}\" height=\"{1}\"/>".format(images[k], v))
-			body.append("</pattern>")
+			if k in images:
+				body.append("<pattern id=\"{0}_pattern\" x=\"0\" y=\"0\" width=\"{1}\" height=\"{1}\">".format(k,v))
+				body.append("<image xlink:href=\"{0}\" width=\"{1}\" height=\"{1}\"/>".format(images[k], v))
+				body.append("</pattern>")
 
 		post = ["</defs>"]
 

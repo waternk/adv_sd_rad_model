@@ -1,4 +1,5 @@
 import json
+import numpy as np
 from VisualisationSettings import VisualisationSettings
 
 class AnimationData(object):
@@ -14,7 +15,7 @@ class AnimationData(object):
 
 		for group in groups:
 			for box in group.boxes:
-				data = list(box.run_data)
+				data = list(map(lambda x: np.asscalar(x), list(box.run_data)))
 				run_length = max(len(data), run_length)
 				self.run_data[box.name] = data
 

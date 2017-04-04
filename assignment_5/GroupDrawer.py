@@ -9,26 +9,33 @@ class GroupLayoutManager(object):
 		self.groups = groups
 
 		len_groups = len(groups)
-		self.cols = int(sqrt(len_groups))
+		self.cols = int(ceil(sqrt(len_groups)))
 		self.rows = int(ceil(len_groups / (1.0 * self.cols)))
+		self.spacing = 10
+		self.cell_width = width / self.cols - (self.spacing+1)
+		self.cell_height = height / self.rows - (self.spacing+1)
 
 	def layout(self):
 		elements = []
 		entity_sizes = {}
 
-		for i in range(0, len(self.groups)):
-			group = self.groups[i]
-			(x, y) = self.position(i)
-			box_layout_manager = BoxLayoutManager(x, y, self.width, self.height, group.boxes)
-			(elems, entity_size) = box_layout_manager.layout()
-			elements.extend(elems)
-			entity_sizes[group.unit_name] = entity_size
+		for row in range(0, self.rows):
+			for col in range(0, self.cols):
+				index = row * self.cols + col
+
+				if index < len(self.groups):
+					group = self.groups[index]
+					(x, y) = self.position(row, col)
+					box_layout_manager = BoxLayoutManager(x, y, self.cell_width, self.cell_height, group.boxes)
+					(elems, entity_size) = box_layout_manager.layout()
+					elements.extend(elems)
+					entity_sizes[group.unit_name] = entity_size
 
 		return (elements, entity_sizes)
 
-	def position(self, index):
-		x = 0
-		y = 0
+	def position(self, row, col):
+		x = self.spacing + col * (self.cell_width + self.spacing)
+		y = self.spacing + row * (self.cell_height + self.spacing)
 
 		return (x,y)
 

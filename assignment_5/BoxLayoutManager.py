@@ -21,9 +21,12 @@ class BoxLayoutManager(object):
 	def boxSize(self, box_count):
 
 		# min(width, height) = box_size / 2 + radius + radius + box_size / 2
-		# min(width, height) = box_size + 2*radius
+		# min(width, height) = box_size + 2*radius 
 
 		outer_radius = min(self.width, self.height) / 2
+
+		if box_count == 1:
+			return outer_radius * 0.45
 
 		x0 = self.width/2 + outer_radius * cos(0)
 		y0 = self.height/2 + outer_radius * sin(0)
