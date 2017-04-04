@@ -25,12 +25,3 @@ class Visualiser(object):
 	def adjustRunSpeed(self, run_speed):
 		self.animation_data.adjustRunSpeed(run_speed)
 		self.animation_data.exportSettings()
-
-width = 600
-height = 600
-ball_rows = 5
-ball_cols = 5
-
-settings = VisualisationSettings(width, height, ball_rows, ball_cols)
-visualiser = Visualiser('index', 'bitcoins.mdl', settings)
-visualiser.visualise({'person' : 'family.png'}, 100)
