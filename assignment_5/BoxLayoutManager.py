@@ -62,8 +62,9 @@ class BoxLayoutManager(object):
 			entity_sizes.append(entity_layout_manager.circle_radius)
 			elements.extend(entity_layout_manager.layout())
 
-			flow_layout_manager = FlowLayoutManager(x, y, self.box_size, self.box_size)
-			elements.extend(flow_layout_manager.layout(box.name, box.placement))
+			# Editted out the flows
+			#flow_layout_manager = FlowLayoutManager(x, y, self.box_size, self.box_size)
+			#elements.extend(flow_layout_manager.layout(box.name, box.placement))
 
 		return (elements, max(entity_sizes) * 2)
 
