@@ -1,29 +1,12 @@
-svg {
-	background-color:rgb(255,255,255);
-}
-
-.background {
-	fill:rgb(240, 240, 240);
-}
-
-#partial {
-	fill:rgb(230,230,230);	
-}
-
-.inflow {
-	fill:rgb(0,160,0);
-}
-
-.outflow {
-	fill:rgb(230,0,0);
-}
-
-.box {
-	fill:rgba(0,0,0,0);
-	stroke:rgb(0,0,0);
-	stroke-width:1;
-}
-
-.person {
-	fill:url(#person_pattern)
-}
+#content { margin: 0 auto; width:600px; border: 1px solid black; padding: 10px; }
+#buttons { margin: auto; width:40%; padding-top: 10px; text-align: center; }
+svg { background-color:rgb(255,255,255);margin-left:auto; margin-right:auto; display:block;}
+h1 { text-align: center; }
+#partial { fill:rgb(230,230,230); }
+.box { fill:rgba(0,0,0,0); stroke:rgb(0,0,0); stroke-width:1; }
+.popup_text { color:rgb(255,255,255); background-color:rgb(0,0,0); opacity: 0.75; text-align: center; height: 100%; width: 100%; display: table; }
+.popup_text h1 { display: table-cell; font-size: 1.2em; text-align: center; vertical-align: middle; }
+.euro { fill:url(#euro_pattern) }
+.person { fill:url(#person_pattern) }
+#euro_placement { fill:url(#euro_background_pattern) }
+#person_placement { fill:url(#person_background_pattern) }

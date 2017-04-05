@@ -12,11 +12,11 @@ class Visualiser(object):
 		self.animation_data = AnimationData(settings)
 		self.settings = settings
 
-	def visualise(self, images, run_speed = 1000):
+	def visualise(self, images, backgrounds, run_speed = 1000):
 		(placements, stocks, _) = self.provider.provide()
 		groups = self.model_runner.run(stocks, placements, self.settings)
 		drawer = GroupDrawer(self.name, self.settings, groups)
-		drawer.draw(images)
+		drawer.draw(images, backgrounds)
 
 		self.animation_data.updateData(groups)
 		self.animation_data.exportRunData()

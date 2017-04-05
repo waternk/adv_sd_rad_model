@@ -1,18 +1,84 @@
-document.addEventListener('DOMContentLoaded', animate, false);
+document.addEventListener('DOMContentLoaded', setUp, false);
 
-function animate() {
+var time = 0
+var currentTime = 0
+var timer_label
+var timer
+var playing = false
+
+function setUp() {
+	var play_button = document.getElementById("play")
+	play_button.addEventListener("click", play)
+
+	var pause_button = document.getElementById("pause")
+	pause_button.addEventListener("click", pause)
+
+	var stop_button = document.getElementById("stop")
+	stop_button.addEventListener("click", stop)
+
+	timer_label = document.getElementById("timer")
+	timer_label.innerText = time
+
 	var snap = Snap("#animation_svg")
+	var boxes = snap.selectAll('.box')
+	boxes.forEach(function(box) {
+		box.click(function() { showPopUp(snap, box) })
+	})
+}
 
-	time = 0
-	max_time = run_settings['run_length']
-	max_entities = run_settings['max_entities']
+function showPopUp(snap, box) {
+	var x = box.attr('x')
+	var y = box.attr('y')
+	var width = box.attr('width')
+	var height = box.attr('height')
+	
+	var dim_string = 'width="' + width + '" height="' + height + '" x="' + x + '" y="' + y + '"'
+	var popup_id = box.attr('id') + '_popup'
+	var popup_tag = '<foreignObject id="' + popup_id + '" class="popup" ' + dim_string
+	var popup_body = '<body><div class="popup_text"><h1>' + box.attr('id').replace(/_/g, " ") + '</h1></div></body>'
+	var popup_end_tag = '</foreignObject>'
 
-	fillBoxes(snap, max_entities, time)	
+	snap.append(Snap.parse( popup_tag + popup_body + popup_end_tag ))
+	var popup = snap.select('#' + popup_id)
+	popup.click(function() { popup.remove() })
+}
 
-	setInterval(function() {
-		if (time+1 < max_time) {
+function play() {
+	if (playing) {
+
+	} else {
+		playing = true
+		var snap = Snap("#animation_svg")
+	
+		var max_time = run_settings['run_length']
+		var max_entities = run_settings['max_entities']
+		var run_speed = run_settings['run_speed']
+	
+		time = currentTime
+		timer_label.innerText = time
+
+		animate(snap, timer_label, max_time, max_entities, run_speed)
+	}
+}
+
+function stop() {
+	currentTime = 0
+	playing = false
+	clearInterval(timer)
+}
+
+function pause() {
+	currentTime = time
+	playing = false
+	clearInterval(timer)
+}
+
+function animate(snap, timer_label, max_time, max_entities, run_speed) {
+	timer = setInterval(function() {
+		if (time < max_time) {
+			timer_label.innerText = time
+			fillBoxes(snap, max_entities, time)
 			time += 1
-			fillBoxes(snap, max_entities, time)		
 		} else {
 
 		}

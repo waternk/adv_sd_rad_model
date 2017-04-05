@@ -1,15 +1,16 @@
-from SVGElement import Square, Circle
+from SVGElement import Square, Circle, PopUp
 from EntityLayoutManager import EntityLayoutManager
 from FlowLayoutManager import FlowLayoutManager
 from math import cos, sin, sqrt, radians, pi
 
 class BoxLayoutManager(object):
-	def __init__(self, x, y, width, height, boxes):
+	def __init__(self, x, y, width, height, boxes, unit):
 		self.x = x
 		self.y = y
 		self.width = width
 		self.height = height
 		self.boxes = boxes
+		self.unit = unit
 
 		box_len = len(boxes)
 
@@ -48,7 +49,8 @@ class BoxLayoutManager(object):
 	def layout(self):
 		elements = []
 
-		elements.append(Circle('box_placement', 'background', self.x + self.width/2, self.y + self.height/2, self.inner_radius))
+		elements.append(Circle('{0}_placement'.format(self.unit), 
+			'background', self.x + self.width/2, self.y + self.height/2, self.inner_radius))
 
 		entity_sizes = [0]
 
@@ -56,11 +58,12 @@ class BoxLayoutManager(object):
 		for i in range(0, len(self.boxes)):
 			box = self.boxes[i]
 			(x, y) = self.position(i)
-			elements.append(Square(box.name, 'box', x, y, self.box_size))
 
 			entity_layout_manager = EntityLayoutManager(box, x, y, self.box_size, self.box_size)
 			entity_sizes.append(entity_layout_manager.circle_radius)
 			elements.extend(entity_layout_manager.layout())
+
+			elements.append(Square(box.name, 'box', x, y, self.box_size))
 
 			# Editted out the flows
 			#flow_layout_manager = FlowLayoutManager(x, y, self.box_size, self.box_size)

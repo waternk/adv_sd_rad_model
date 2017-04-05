@@ -1,4 +1,5 @@
 from PageBuilder import PageBuilder, SVGBuilder
+from Styler import Styler
 from BoxLayoutManager import BoxLayoutManager
 from math import sqrt, ceil
 
@@ -26,7 +27,7 @@ class GroupLayoutManager(object):
 				if index < len(self.groups):
 					group = self.groups[index]
 					(x, y) = self.position(row, col)
-					box_layout_manager = BoxLayoutManager(x, y, self.cell_width, self.cell_height, group.boxes)
+					box_layout_manager = BoxLayoutManager(x, y, self.cell_width, self.cell_height, group.boxes, group.unit_name)
 					(elems, entity_size) = box_layout_manager.layout()
 					elements.extend(elems)
 					entity_sizes[group.unit_name] = entity_size
@@ -45,12 +46,15 @@ class GroupDrawer(object):
 		self.width = settings.width
 		self.height = settings.height
 		self.layout_manager = GroupLayoutManager(self.width, self.height, groups)
+		self.units = list(map(lambda g: g.unit_name, groups))
 
-	def draw(self, images):
+	def draw(self, images, backgrounds):
 		(svg_elements, entity_sizes) = self.layout_manager.layout()
 		svg_builder = SVGBuilder(self.width, self.height)
-		drawing = PageBuilder().build(svg_builder.build(svg_elements, entity_sizes, images))
+		drawing = PageBuilder().build(self.drawing_name, svg_builder.build(svg_elements, entity_sizes, images, backgrounds))
 		self.save(drawing)
+
+		Styler(self.units, self.width).save()
 
 	def save(self, drawing):
 		with open(self.drawing_name + '.html', 'w') as file: 

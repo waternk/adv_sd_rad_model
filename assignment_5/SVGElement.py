@@ -10,16 +10,21 @@ class SVGElement(object):
 	def text(self):
 		object_attributes = vars(self)
 
-		pre = ["<" + self.tag_name]
-		post = ["/>"]
-		# list(map(lambda k: self.formatAttribute(k), object_attributes.viewkeys()))
 		tag_attributes = [self.formatAttribute(k) for k,v in object_attributes.items()]
-		formatted_attributes = pre + tag_attributes + post
 		
-		format_string = " ".join(formatted_attributes)
+		format_string = " ".join(tag_attributes)
 		format_attributes = {k: quotify(v) for k, v in object_attributes.items()}
 		
-		return format_string.format(format_attributes)
+		attribute_string = format_string.format(format_attributes)
+		sub_text = self.subText()
+
+		if sub_text:
+			return "<{0} {1}>{2}</{0}>".format(self.tag_name, attribute_string, "".join(sub_text))
+		else:
+			return "<{0} {1}/>".format(self.tag_name, attribute_string)
+
+	def subText(self):
+		return []
 
 	def formatAttribute(self, attribute):
 		if attribute == 'tag_name':
@@ -49,3 +54,21 @@ class Rectangle(SVGElement):
 class Square(Rectangle):
 	def __init__(self, id_name, class_name, x, y, length):
 		Rectangle.__init__(self, id_name, class_name, x, y, length, length)
+
+class ForeignObject(SVGElement):
+	def __init__(self, id_name, class_name, x, y, width, height):
+		SVGElement.__init__(self, id_name, "foreignObject", class_name)
+		self.x = x
+		self.y = y
+		self.width = width
+		self.height = height
+
+class PopUp(ForeignObject):
+	def __init__(self, id_name, x, y, length):
+		ForeignObject.__init__(self, id_name+'_popup', 'popup', x, y, length, length)
+
+	def subText(self):
+		return ["<body xmlns=\"http://www.w3.org/1999/xhtml\">",
+			"<div width={0} height={1}>".format(self.width, self.height),
+			"<p>Text in here<p>",
+			"</div></body>"]
