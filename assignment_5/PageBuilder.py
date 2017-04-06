@@ -10,14 +10,15 @@ class PageBuilder(object):
 			"<script src=\"run_settings.js\"></script>",
 			"</head>", "<body>",
 			"<div id=\"content\">",
-			"<H1>{0}</H1>".format(name),
-			"<H3 id=\"timer\">0</H3>"]
+			"<div class=\"header\"><img src=\"images/venvis.png\" /><H1>{0}</H1></div>".format(name),
+			"<div id=\"progress\"><div id=\"progress_bar\"><H3 id=\"timer\">0</H3></div></div>"]
 			
 		post = ["<div id=\"buttons\">",
 				"<button id=\"play\" type=\"button\"></button>",
 				"<button id=\"pause\" type=\"button\"></button>",
 				"<button id=\"stop\" type=\"button\"></button>",
-				"</div>", "</div>", "</body>", "</html>"]
+				"<button id=\"replay\" type=\"button\"></button>",
+				"</div>", "<p>VenVis 2017</p>", "</div>", "</body>", "</html>"]
 
 		return pre + body + post
 
@@ -28,8 +29,6 @@ class SVGBuilder(object):
 
 	def build(self, svg_elements, entity_sizes, background_sizes, entity_images, background_images):
 		pre = ["<svg id=\"animation_svg\" width={0} height={1}>".format(quotify(self.width), quotify(self.height))]
-
-		background_size = 159
 
 		patterns = self.buildPatterns(entity_sizes, background_sizes, entity_images, background_images)
 		elements = list(map(lambda e: e.text(), svg_elements))

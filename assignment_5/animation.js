@@ -4,9 +4,25 @@ var time = 0
 var currentTime = 0
 var timer_label
 var timer
+var progress_bar
 var playing = false
 
 function setUp() {
+	setButtons()
+
+	timer_label = document.getElementById("timer")
+	progress_bar = document.getElementById("progress_bar")
+
+	var snap = Snap("#animation_svg")
+	var boxes = snap.selectAll('.box')
+	boxes.forEach(function(box) {
+		box.mouseover(function() { showPopUp(snap, box) })
+	})
+
+	clear()
+}
+
+function setButtons() {
 	var play_button = document.getElementById("play")
 	play_button.addEventListener("click", play)
 
@@ -16,14 +32,8 @@ function setUp() {
 	var stop_button = document.getElementById("stop")
 	stop_button.addEventListener("click", stop)
 
-	timer_label = document.getElementById("timer")
-	timer_label.innerText = time
-
-	var snap = Snap("#animation_svg")
-	var boxes = snap.selectAll('.box')
-	boxes.forEach(function(box) {
-		box.mouseover(function() { showPopUp(snap, box) })
-	})
+	var replay_button = document.getElementById("replay")
+	replay_button.addEventListener("click", replay)
 }
 
 function showPopUp(snap, box) {
@@ -31,8 +41,6 @@ function showPopUp(snap, box) {
 	var y = parseInt(box.attr('y'))-2
 	var width = parseInt(box.attr('width'))+4
 	var height = parseInt(box.attr('height'))+4
-	
-	console.log(width+1 + " " + height)
 
 	var dim_string = 'width="' + width + '" height="' + height + '" x="' + x + '" y="' + y + '"'
 	var popup_id = box.attr('id') + '_popup'
@@ -45,6 +53,16 @@ function showPopUp(snap, box) {
 	popup.mouseout(function() { popup.remove() })
 }
 
+function clear() {
+	var snap = Snap("#animation_svg")
+
+	var max_time = run_settings['run_length']
+	var max_entities = run_settings['max_entities']
+
+	progress(0, max_time)
+	fillBoxes(snap, max_entities, 0)
+}
+
 function play() {
 	if (playing) {
 
@@ -55,7 +73,7 @@ function play() {
 		var max_time = run_settings['run_length']
 		var max_entities = run_settings['max_entities']
 		var run_speed = run_settings['run_speed']
-	
+
 		time = currentTime
 		timer_label.innerText = time
 
@@ -75,14 +93,33 @@ function pause() {
 	clearInterval(timer)
 }
 
+function replay() {
+	currentTime = 0
+	playing = false
+	clearInterval(timer)
+	clear()
+}
+
+function progress(time, max_time) {
+	percent = (100 * time / max_time)
+
+	console.log(progress_bar)
+
+	progress_bar.style.width = "" + percent + "%"
+
+	if (timer_label) {
+		timer_label.innerText = time
+	}
+}
+
 function animate(snap, timer_label, max_time, max_entities, run_speed) {
 	timer = setInterval(function() {
 		if (time < max_time) {
-			timer_label.innerText = time
 			fillBoxes(snap, max_entities, time)
+			progress(time, max_time)
 			time += 1
 		} else {
-
+			stop()
 		}
 	}, run_settings['run_speed']);
 }
