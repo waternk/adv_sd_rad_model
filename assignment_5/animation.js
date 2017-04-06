@@ -22,16 +22,18 @@ function setUp() {
 	var snap = Snap("#animation_svg")
 	var boxes = snap.selectAll('.box')
 	boxes.forEach(function(box) {
-		box.click(function() { showPopUp(snap, box) })
+		box.mouseover(function() { showPopUp(snap, box) })
 	})
 }
 
 function showPopUp(snap, box) {
-	var x = box.attr('x')
-	var y = box.attr('y')
-	var width = box.attr('width')
-	var height = box.attr('height')
+	var x = parseInt(box.attr('x'))-2
+	var y = parseInt(box.attr('y'))-2
+	var width = parseInt(box.attr('width'))+4
+	var height = parseInt(box.attr('height'))+4
 	
+	console.log(width+1 + " " + height)
+
 	var dim_string = 'width="' + width + '" height="' + height + '" x="' + x + '" y="' + y + '"'
 	var popup_id = box.attr('id') + '_popup'
 	var popup_tag = '<foreignObject id="' + popup_id + '" class="popup" ' + dim_string
@@ -40,7 +42,7 @@ function showPopUp(snap, box) {
 
 	snap.append(Snap.parse( popup_tag + popup_body + popup_end_tag ))
 	var popup = snap.select('#' + popup_id)
-	popup.click(function() { popup.remove() })
+	popup.mouseout(function() { popup.remove() })
 }
 
 function play() {

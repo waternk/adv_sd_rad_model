@@ -19,6 +19,7 @@ class GroupLayoutManager(object):
 	def layout(self):
 		elements = []
 		entity_sizes = {}
+		background_sizes = {}
 
 		for row in range(0, self.rows):
 			for col in range(0, self.cols):
@@ -28,11 +29,12 @@ class GroupLayoutManager(object):
 					group = self.groups[index]
 					(x, y) = self.position(row, col)
 					box_layout_manager = BoxLayoutManager(x, y, self.cell_width, self.cell_height, group.boxes, group.unit_name)
-					(elems, entity_size) = box_layout_manager.layout()
+					(elems, entity_size, background_size) = box_layout_manager.layout()
 					elements.extend(elems)
 					entity_sizes[group.unit_name] = entity_size
+					background_sizes[group.unit_name] = background_size
 
-		return (elements, entity_sizes)
+		return (elements, entity_sizes, background_sizes)
 
 	def position(self, row, col):
 		x = self.spacing + col * (self.cell_width + self.spacing)
@@ -48,13 +50,13 @@ class GroupDrawer(object):
 		self.layout_manager = GroupLayoutManager(self.width, self.height, groups)
 		self.units = list(map(lambda g: g.unit_name, groups))
 
-	def draw(self, images, backgrounds):
-		(svg_elements, entity_sizes) = self.layout_manager.layout()
+	def draw(self, entity_images, background_images):
+		(svg_elements, entity_sizes, background_sizes) = self.layout_manager.layout()
 		svg_builder = SVGBuilder(self.width, self.height)
-		drawing = PageBuilder().build(self.drawing_name, svg_builder.build(svg_elements, entity_sizes, images, backgrounds))
+		drawing = PageBuilder().build(self.drawing_name, svg_builder.build(svg_elements, entity_sizes, background_sizes, entity_images, background_images))
 		self.save(drawing)
 
-		Styler(self.units, self.width).save()
+		Styler(self.units, self.width).save(self.drawing_name)
 
 	def save(self, drawing):
 		with open(self.drawing_name + '.html', 'w') as file: 

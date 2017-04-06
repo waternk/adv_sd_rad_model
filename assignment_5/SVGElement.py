@@ -54,21 +54,3 @@ class Rectangle(SVGElement):
 class Square(Rectangle):
 	def __init__(self, id_name, class_name, x, y, length):
 		Rectangle.__init__(self, id_name, class_name, x, y, length, length)
-
-class ForeignObject(SVGElement):
-	def __init__(self, id_name, class_name, x, y, width, height):
-		SVGElement.__init__(self, id_name, "foreignObject", class_name)
-		self.x = x
-		self.y = y
-		self.width = width
-		self.height = height
-
-class PopUp(ForeignObject):
-	def __init__(self, id_name, x, y, length):
-		ForeignObject.__init__(self, id_name+'_popup', 'popup', x, y, length, length)
-
-	def subText(self):
-		return ["<body xmlns=\"http://www.w3.org/1999/xhtml\">",
-			"<div width={0} height={1}>".format(self.width, self.height),
-			"<p>Text in here<p>",
-			"</div></body>"]

@@ -1,12 +1,21 @@
-#content { margin: 0 auto; width:600px; border: 1px solid black; padding: 10px; }
+#content { margin: 0 auto; width:600px; border: 1px solid #DDDDDD; padding: 10px; box-shadow: 10px 10px 5px #888888; }
 #buttons { margin: auto; width:40%; padding-top: 10px; text-align: center; }
+button { padding: 0; border: none; background: none; }
+button :hover { border: 1px solid blue; }
+
+#play { background:url(play.png) no-repeat; width: 40px; height: 40px; background-size: 100%; margin-right: 10px; }
+#pause { background:url(pause.png) no-repeat; width: 40px; height: 40px; background-size: 100%; }
+#stop { background:url(stop.png) no-repeat; width: 40px; height: 40px; background-size: 100%; margin-left: 10px; }
+
 svg { background-color:rgb(255,255,255);margin-left:auto; margin-right:auto; display:block;}
-h1 { text-align: center; }
+h1 { text-align: center; font-family: "Roboto", Helvetica, Arial, sans-serif; }
+h3 { font-family: "Roboto", Helvetica, Arial, sans-serif; }
 #partial { fill:rgb(230,230,230); }
-.box { fill:rgba(0,0,0,0); stroke:rgb(0,0,0); stroke-width:1; }
-.popup_text { color:rgb(255,255,255); background-color:rgb(0,0,0); opacity: 0.75; text-align: center; height: 100%; width: 100%; display: table; }
+.box { fill:rgba(0,0,0,0); stroke:rgba(0,0,0,0.2); stroke-width:1; }
+.popup_text { color:rgb(255,255,255); stroke:rgba(0,0,0,0.2); stroke-width:1; background-color:rgb(0,0,0); opacity: 0.75; text-align: center; height: 100%; width: 100%; display: table; }
 .popup_text h1 { display: table-cell; font-size: 1.2em; text-align: center; vertical-align: middle; }
+
 .euro { fill:url(#euro_pattern) }
 .person { fill:url(#person_pattern) }
-#euro_placement { fill:url(#euro_background_pattern) }
-#person_placement { fill:url(#person_background_pattern) }
+#euro_placement { opacity: 0.5; fill:url(#euro_background_pattern) }
+#person_placement { opacity: 0.5; fill:url(#person_background_pattern) }

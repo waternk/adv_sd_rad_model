@@ -1,4 +1,4 @@
-from SVGElement import Square, Circle, PopUp
+from SVGElement import Square, Circle
 from EntityLayoutManager import EntityLayoutManager
 from FlowLayoutManager import FlowLayoutManager
 from math import cos, sin, sqrt, radians, pi
@@ -69,7 +69,7 @@ class BoxLayoutManager(object):
 			#flow_layout_manager = FlowLayoutManager(x, y, self.box_size, self.box_size)
 			#elements.extend(flow_layout_manager.layout(box.name, box.placement))
 
-		return (elements, max(entity_sizes) * 2)
+		return (elements, max(entity_sizes) * 2, self.inner_radius * 2)
 
 	def position(self, index):
 		angle = self.angle * index + self.angle_shift
